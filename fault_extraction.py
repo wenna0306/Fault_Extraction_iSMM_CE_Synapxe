@@ -18,7 +18,7 @@ load_dotenv(dotenv_path=r"api_key.env")
 email = os.getenv("email")
 password = os.getenv("password")
 
-site_name = 113
+site_name = 259
 
 
 # Function to get access token
@@ -129,3 +129,4 @@ data_dic = df_final.to_dict(orient="records")
 
 # Upsert data into Supabase table
 supabase.table("fault_AFT").upsert(data_dic, on_conflict=["fault_number"]).execute()
+
