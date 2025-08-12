@@ -102,13 +102,13 @@ df_loc = df_loc.set_index(df["site_and_location"].index)
 # Merge with original DataFrame
 df_flattened = df.drop(columns=["site_and_location"]).join(df_loc)
 
-df_flattened.columns = ['fault_number', 'Site Fault Number', 'Trade', 'Trade Category', 'Type of Fault',
-                        'impact', 'Reported By', 'Fault Acknowledged Date', 'Responded on Site Date',
+df_flattened.columns = ['Fault Number', 'Site Fault Number', 'Trade', 'Trade Category', 'Type of Fault',
+                        'Impact', 'Reported By', 'Fault Acknowledged Date', 'Responded on Site Date',
                         'RA Conducted Date', 'Work Started Date', 'Work Completed Date', 'Action(s) Taken', 'Attended By',
                         'Status', 'Remarks', 'Source', 'Reported Date', 'Site', 'Building', 'Floor', 'Room', 'Assets']
 
-df_final = df_flattened[['fault_number', 'Site Fault Number', 'Trade', 'Trade Category', 'Type of Fault',
-                             'impact', 'Site', 'Building', 'Floor', 'Room', 'Assets', 'Reported Date',
+df_final = df_flattened[['Fault Number', 'Site Fault Number', 'Trade', 'Trade Category', 'Type of Fault',
+                             'Impact', 'Site', 'Building', 'Floor', 'Room', 'Assets', 'Reported Date',
                              'Fault Acknowledged Date', 'Responded on Site Date','RA Conducted Date',
                              'Work Started Date', 'Work Completed Date', 'Status', 'Reported By', 'Remarks', 'Source', 'Action(s) Taken', 'Attended By']]
 
@@ -128,6 +128,7 @@ data_dic = df_final.to_dict(orient="records")
 
 # Upsert data into Supabase table
 supabase.table("fault_Synapxe").upsert(data_dic, on_conflict=["fault_number"]).execute()
+
 
 
 
