@@ -128,5 +128,6 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 data_dic = df_final.to_dict(orient="records")
 
 # Upsert data into Supabase table
-supabase.table("fault_AFT").upsert(data_dic, on_conflict=["fault_number"]).execute()
+supabase.table("fault_Synapxe").upsert(data_dic, on_conflict=["fault_number"]).execute()
+
 
