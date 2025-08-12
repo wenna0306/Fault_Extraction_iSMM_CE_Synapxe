@@ -1,0 +1,26 @@
+on:
+  schedule:
+    - cron: '0 18 * * *'  # 2:00 AM SGT
+    # - cron: '0 9 * * *'    # 5:00 PM SGT (9:00 AM UTC)
+  workflow_dispatch:  # This enables manual trigger
+
+jobs:
+  run_python_script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.x
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run Python script
+      run: |
+        python fault_extraction.py
