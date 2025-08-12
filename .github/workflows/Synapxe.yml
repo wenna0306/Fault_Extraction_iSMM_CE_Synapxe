@@ -1,6 +1,6 @@
 on:
   schedule:
-    - cron: '0 18 * * *'  # 2:00 AM SGT
+    - cron: '30 17 * * *'  # 1:30 AM SGT
     # - cron: '0 9 * * *'    # 5:00 PM SGT (9:00 AM UTC)
   workflow_dispatch:  # This enables manual trigger
 
