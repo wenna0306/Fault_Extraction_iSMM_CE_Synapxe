@@ -1,0 +1,7 @@
+﻿pandas
+numpy
+requests
+xlsxwriter
+pytz
+supabase
+python-dotenv
