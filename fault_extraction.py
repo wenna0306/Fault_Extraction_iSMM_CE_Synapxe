@@ -84,7 +84,7 @@ if access_token:
 
 df = df.loc[:, ["fault_number", "site_fault_number", "trade_name", "category_name","type_name", "impact_name", "site_and_location", 
                 "created_user","responded_date", "site_visited_date", "ra_acknowledged_date", "work_started_date", "work_completed_date", 
-                "latest_status", "fault_remarks", 'source', "created_at"]]
+                "action_taken", "attended_by", "latest_status", "fault_remarks", 'source', "created_at"]]
 
 # Convert the string to a Python dictionary
 df["site_and_location"] = df["site_and_location"].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
@@ -103,15 +103,14 @@ df_loc = df_loc.set_index(df["site_and_location"].index)
 df_flattened = df.drop(columns=["site_and_location"]).join(df_loc)
 
 df_flattened.columns = ['fault_number', 'Site Fault Number', 'Trade', 'Trade Category', 'Type of Fault',
-       'impact', 'Reported By', 'Fault Acknowledged Date', 'Responded on Site Date',
-       'RA Conducted Date', 'Work Started Date', 'Work Completed Date',
-       'Status', 'Remarks', 'Source', 'Reported Date', 'Site',
-       'Building', 'Floor', 'Room', 'Assets']
+                        'impact', 'Reported By', 'Fault Acknowledged Date', 'Responded on Site Date',
+                        'RA Conducted Date', 'Work Started Date', 'Work Completed Date', 'Action(s) Taken', 'Attended By',
+                        'Status', 'Remarks', 'Source', 'Reported Date', 'Site', 'Building', 'Floor', 'Room', 'Assets']
 
 df_final = df_flattened[['fault_number', 'Site Fault Number', 'Trade', 'Trade Category', 'Type of Fault',
                              'impact', 'Site', 'Building', 'Floor', 'Room', 'Assets', 'Reported Date',
                              'Fault Acknowledged Date', 'Responded on Site Date','RA Conducted Date',
-                             'Work Started Date', 'Work Completed Date', 'Status', 'Reported By', 'Remarks', 'Source']]
+                             'Work Started Date', 'Work Completed Date', 'Status', 'Reported By', 'Remarks', 'Source', 'Action(s) Taken', 'Attended By']]
 
 df_final["Fault Link"] = "https://ismm.sg/ce/fault/" + df_final['fault_number'].str.replace('FID', '', regex=False)
 
@@ -129,5 +128,6 @@ data_dic = df_final.to_dict(orient="records")
 
 # Upsert data into Supabase table
 supabase.table("fault_Synapxe").upsert(data_dic, on_conflict=["fault_number"]).execute()
+
 
 
