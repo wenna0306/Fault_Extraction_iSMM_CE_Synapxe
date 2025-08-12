@@ -112,7 +112,7 @@ df_final = df_flattened[['Fault Number', 'Site Fault Number', 'Trade', 'Trade Ca
                              'Fault Acknowledged Date', 'Responded on Site Date','RA Conducted Date',
                              'Work Started Date', 'Work Completed Date', 'Status', 'Reported By', 'Remarks', 'Source', 'Action(s) Taken', 'Attended By']]
 
-df_final["Fault Link"] = "https://ismm.sg/ce/fault/" + df_final['fault_number'].str.replace('FID', '', regex=False)
+df_final["Fault Link"] = "https://ismm.sg/ce/fault/" + df_final['Fault Number'].str.replace('FID', '', regex=False)
 
 # Load environment variables
 load_dotenv(dotenv_path="myenv.env")
@@ -128,6 +128,7 @@ data_dic = df_final.to_dict(orient="records")
 
 # Upsert data into Supabase table
 supabase.table("fault_Synapxe").upsert(data_dic, on_conflict=["Fault Number"]).execute()
+
 
 
 
